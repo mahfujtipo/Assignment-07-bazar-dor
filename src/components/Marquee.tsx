@@ -27,21 +27,21 @@ export default async function ProductsMarquee() {
 
   const products: Product[] = await response.json();
 
+  const formatBn = (num: number) => num.toLocaleString("bn-BD");
+
   return (
     <div className="border-y border-gray-100 bg-gray-50 py-2">
-      {" "}
       <Marquee speed={80} pauseOnHover gradient={false}>
         {products.map((product) => (
           <Link
             key={product.id}
-            href={`/products/${product.slug}`}
-            className="mx-5 flex shrink-0 items-center gap-2 text-sm"
+            href={`/product/${product.id}`}
+            className="mx-5 flex shrink-0 cursor-pointer items-center gap-2 text-sm"
           >
-            {" "}
             <span>{product.image}</span>
             <span className="font-medium text-gray-800">{product.nameBn}</span>
             <span className="font-semibold text-gray-900">
-              ৳{product.today}
+              {formatBn(product.today)} টাকা
               {product.unit === "kg"
                 ? "/কেজি"
                 : product.unit === "litre"
@@ -53,13 +53,13 @@ export default async function ProductsMarquee() {
             {product.change.dir === "up" && (
               <span className="flex items-center font-semibold text-red-600">
                 <FaCaretUp />
-                {product.change.pct}%
+                {formatBn(product.change.pct)}%
               </span>
             )}
             {product.change.dir === "down" && (
               <span className="flex items-center font-semibold text-green-600">
                 <FaCaretDown />
-                {Math.abs(product.change.pct)}%
+                {formatBn(Math.abs(product.change.pct))}%
               </span>
             )}
           </Link>
