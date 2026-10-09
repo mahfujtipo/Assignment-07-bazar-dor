@@ -1,12 +1,12 @@
-import HeroSection from "@/components/Herosection";
 import React from "react";
+import HeroSection from "@/components/Herosection";
+import ProductGrid from "@/components/ProductGrid";
 
-const page = () => {
+export default function Page() {
   return (
-    <div>
+    <main className="min-h-screen bg-gray-50 pb-16">
       <HeroSection />
-    </div>
+      <ProductGrid />
+    </main>
   );
-};
-
-export default page;
+}
