@@ -1,5 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
+import Catagories from "@/components/catagories";
+import ProductsMarquee from "./Marquee";
 
 export default function Navbar() {
   const bengaliDate = new Intl.DateTimeFormat("bn-BD", {
@@ -89,6 +91,8 @@ export default function Navbar() {
           </div>
         </details>
       </div>
+      <Catagories />
+      <ProductsMarquee />
     </header>
   );
 }
