@@ -39,7 +39,9 @@ export default async function ProductsMarquee() {
             className="mx-5 flex shrink-0 cursor-pointer items-center gap-2 text-sm"
           >
             <span>{product.image}</span>
+
             <span className="font-medium text-gray-800">{product.nameBn}</span>
+
             <span className="font-semibold text-gray-900">
               {formatBn(product.today)} টাকা
               {product.unit === "kg"
@@ -50,12 +52,14 @@ export default async function ProductsMarquee() {
                     ? "/ডজন"
                     : ""}
             </span>
+
             {product.change.dir === "up" && (
               <span className="flex items-center font-semibold text-red-600">
                 <FaCaretUp />
                 {formatBn(product.change.pct)}%
               </span>
             )}
+
             {product.change.dir === "down" && (
               <span className="flex items-center font-semibold text-green-600">
                 <FaCaretDown />

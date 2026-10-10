@@ -1,26 +1,29 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
 export default function HeroSection() {
-  const getBengaliFormattedDate = () => {
-    const date = new Date();
+  const [formattedDate, setFormattedDate] = useState<string>("");
+
+  useEffect(() => {
     const options: Intl.DateTimeFormatOptions = {
       weekday: "long",
       year: "numeric",
       month: "long",
       day: "numeric",
     };
-
-    return new Intl.DateTimeFormat("bn-BD", options).format(date);
-  };
+    setFormattedDate(new Intl.DateTimeFormat("bn-BD", options).format(new Date()));
+  }, []);
 
   return (
     <section className="mx-auto mb-4 w-full max-w-7xl px-3 sm:mb-6 sm:px-6 lg:px-8">
       <div className="relative overflow-hidden rounded-2xl bg-[#f4f7f4] p-5 sm:rounded-3xl sm:p-8 md:p-10 lg:p-14">
         <div className="flex flex-col-reverse items-center gap-6 sm:gap-8 md:flex-row md:justify-between">
           <div className="flex w-full min-w-0 flex-1 flex-col items-start space-y-4 text-left sm:space-y-5">
-            <div className="inline-flex max-w-full items-center rounded-full bg-[#e2ebe2] px-3 py-1.5 text-xs font-semibold text-[#009245] sm:px-4 sm:text-sm">
-              {getBengaliFormattedDate()}
+            <div className="inline-flex min-h-[32px] max-w-full items-center rounded-full bg-[#e2ebe2] px-3 py-1.5 text-xs font-semibold text-[#009245] sm:px-4 sm:text-sm">
+              {formattedDate}
             </div>
 
             <h1 className="text-2xl font-extrabold leading-snug break-words text-gray-900 sm:text-3xl sm:leading-tight md:text-4xl lg:text-5xl">
@@ -29,7 +32,7 @@ export default function HeroSection() {
 
             <p className="w-full max-w-xl text-sm leading-7 text-gray-600 sm:text-base sm:leading-8">
               চাল, ডাল, তেল, সবজি, মাছ, মাংস, ডিম ও মসলার দাম — বাজারভিত্তিক
-              বিস্তারিত, গড়, সর্বনিম্ন-সর্বোচ্চ এবং দামের পরিবর্তন এক জায়গায়।
+              বিস্তারিত, গড়, সর্বনিম্ন-সর্বোচ্চ এবং দামের পরিবর্তন এক জায়গায়।
             </p>
 
             <div className="w-full pt-1 sm:w-auto sm:pt-2">

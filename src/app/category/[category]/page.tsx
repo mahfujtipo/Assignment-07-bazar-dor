@@ -1,9 +1,9 @@
 "use client";
 
-import React, { use, useEffect, useState } from "react";
+import React, { Suspense, use, useEffect, useState } from "react";
 import ProductCard, { Product } from "@/components/Card";
 
-export default function CategoryPage({
+function CategoryPageContent({
   params,
 }: {
   params: Promise<{ category: string }>;
@@ -108,5 +108,31 @@ export default function CategoryPage({
         ))}
       </div>
     </div>
+  );
+}
+
+export default function CategoryPage({
+  params,
+}: {
+  params: Promise<{ category: string }>;
+}) {
+  return (
+    <Suspense
+      fallback={
+        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+          <div className="h-32 w-full animate-pulse rounded-2xl bg-gray-100" />
+          <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div
+                key={i}
+                className="h-44 animate-pulse rounded-2xl bg-gray-100"
+              />
+            ))}
+          </div>
+        </div>
+      }
+    >
+      <CategoryPageContent params={params} />
+    </Suspense>
   );
 }

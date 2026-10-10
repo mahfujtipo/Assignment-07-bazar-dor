@@ -1,15 +1,28 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { Suspense, useSyncExternalStore } from "react";
 import Catagories from "@/components/catagories";
-import ProductsMarquee from "./Marquee";
 
-export default function Navbar() {
-  const bengaliDate = new Intl.DateTimeFormat("bn-BD", {
+const getBengaliDate = () =>
+  new Intl.DateTimeFormat("bn-BD", {
     weekday: "long",
     year: "numeric",
     month: "long",
     day: "numeric",
+    timeZone: "Asia/Dhaka",
   }).format(new Date());
+
+const getServerDate = () => "";
+const subscribe = () => () => {};
+
+export default function Navbar({ children }: { children?: React.ReactNode }) {
+  const bengaliDate = useSyncExternalStore(
+    subscribe,
+    getBengaliDate,
+    getServerDate,
+  );
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-gray-200/80 bg-white/95 backdrop-blur-md">
@@ -28,6 +41,7 @@ export default function Navbar() {
               priority
             />
           </div>
+
           <div className="flex min-w-0 flex-col">
             <h1 className="text-lg font-extrabold tracking-tight text-gray-900 sm:text-2xl">
               বাজার দর
@@ -84,6 +98,7 @@ export default function Navbar() {
             >
               সাইন ইন
             </Link>
+
             <Link
               href="/Signup"
               className="cursor-pointer rounded-lg bg-[#009245] px-4 py-2 text-center text-sm font-medium text-white shadow-sm transition hover:bg-[#007a39]"
@@ -93,8 +108,11 @@ export default function Navbar() {
           </div>
         </details>
       </div>
-      <Catagories />
-      <ProductsMarquee />
+
+      <Suspense fallback={null}>
+        <Catagories />
+      </Suspense>
+      {children}
     </header>
   );
 }
