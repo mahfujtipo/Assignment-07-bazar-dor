@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import { toast } from "react-toastify";
-import { signUp } from "@/lib/auth-client";
+import { signUp, signIn } from "@/lib/auth-client";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -38,9 +38,9 @@ export default function SignupPage() {
       if (error) {
         toast.error(error.message || "সাইন আপ করতে সমস্যা হয়েছে।");
       } else {
-        toast.success("অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে! 🎉");
+        toast.success("অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে! 🎉");
         setTimeout(() => {
-          router.push("/"); // সফল হলে হোমপেজে নিয়ে যাবে
+          router.push("/");
         }, 1500);
       }
     } catch (err: any) {
@@ -48,6 +48,22 @@ export default function SignupPage() {
       console.error("Signup catch error:", err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSocialSignIn = async (provider: "google" | "github") => {
+    try {
+      const { error } = await signIn.social({
+        provider,
+        callbackURL: "/",
+      });
+
+      if (error) {
+        toast.error(error.message || "সাইন ইন করতে সমস্যা হয়েছে।");
+      }
+    } catch (err: any) {
+      toast.error("একটি অপ্রত্যাশিত ত্রুটি ঘটেছে। আবার চেষ্টা করুন।");
+      console.error("Social signin error:", err);
     }
   };
 
@@ -78,7 +94,7 @@ export default function SignupPage() {
                 name="name"
                 required
                 autoComplete="name"
-                placeholder="your name"
+                placeholder="আপনার নাম লিখুন"
                 className="mt-1.5 w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 placeholder-gray-400 focus:border-[#009245] focus:outline-none focus:ring-1 focus:ring-[#009245]"
               />
             </div>
@@ -160,6 +176,7 @@ export default function SignupPage() {
           <div className="grid grid-cols-2 gap-3">
             <button
               type="button"
+              onClick={() => handleSocialSignIn("google")}
               className="flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white py-2.5 text-xs font-semibold text-[#333] hover:bg-gray-50"
             >
               <FcGoogle className="h-5 w-5" />
@@ -168,6 +185,7 @@ export default function SignupPage() {
 
             <button
               type="button"
+              onClick={() => handleSocialSignIn("github")}
               className="flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white py-2.5 text-xs font-semibold text-[#333] hover:bg-gray-50"
             >
               <FaGithub className="h-5 w-5 text-gray-900" />
