@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { Suspense, useSyncExternalStore } from "react";
+import { Suspense, useState, useSyncExternalStore } from "react";
 import Catagories from "@/components/catagories";
 import { useSession, signOut } from "@/lib/auth-client";
-import { toast } from "react-toastify"; // টোস্ট ইম্পোর্ট নিশ্চিত করুন
+import { toast } from "react-toastify";
+import { GiHamburgerMenu } from "react-icons/gi";
+import { IoClose } from "react-icons/io5";
 
 const getBengaliDate = () =>
   new Intl.DateTimeFormat("bn-BD", {
@@ -20,6 +22,8 @@ const getServerDate = () => "";
 const subscribe = () => () => {};
 
 export default function Navbar({ children }: { children?: React.ReactNode }) {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   const bengaliDate = useSyncExternalStore(
     subscribe,
     getBengaliDate,
@@ -27,6 +31,19 @@ export default function Navbar({ children }: { children?: React.ReactNode }) {
   );
 
   const { data: session } = useSession();
+
+  const handleSignOut = async () => {
+    await signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          toast.success("সফলভাবে সাইন আউট করা হয়েছে!");
+          setTimeout(() => {
+            window.location.href = "/Signin";
+          }, 1000);
+        },
+      },
+    });
+  };
 
   return (
     <header className="relative z-50 w-full border-b border-gray-200/80 bg-white/95">
@@ -112,18 +129,7 @@ export default function Navbar({ children }: { children?: React.ReactNode }) {
                 </Link>
 
                 <button
-                  onClick={async () => {
-                    await signOut({
-                      fetchOptions: {
-                        onSuccess: () => {
-                          toast.success("সফলভাবে সাইন আউট করা হয়েছে!");
-                          setTimeout(() => {
-                            window.location.href = "/Signin";
-                          }, 1000);
-                        },
-                      },
-                    });
-                  }}
+                  onClick={handleSignOut}
                   className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium text-red-600 transition hover:bg-red-50"
                 >
                   <span className="text-base">↪</span> সাইন আউট
@@ -147,7 +153,91 @@ export default function Navbar({ children }: { children?: React.ReactNode }) {
             </>
           )}
         </nav>
+
+        {/* Mobile Hamburger Button */}
+        <div className="flex items-center sm:hidden">
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="rounded-xl border border-gray-200 p-2.5 text-gray-700 transition hover:bg-gray-100 focus:outline-none"
+            aria-label="Toggle Menu"
+          >
+            {mobileMenuOpen ? (
+              <IoClose className="h-6 w-6" />
+            ) : (
+              <GiHamburgerMenu className="h-6 w-6" />
+            )}
+          </button>
+        </div>
       </div>
+
+      {/* Mobile Menu Dropdown */}
+      {mobileMenuOpen && (
+        <div className="border-b border-gray-200 bg-white px-4 py-4 shadow-lg sm:hidden">
+          {session?.user ? (
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center gap-3 border-b border-gray-100 pb-3">
+                <div className="relative h-10 w-10 overflow-hidden rounded-full border border-gray-200 bg-gray-100">
+                  {session.user.image ? (
+                    <Image
+                      src={session.user.image}
+                      alt={session.user.name || "User"}
+                      fill
+                      className="object-cover"
+                    />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center bg-[#009245] text-sm font-bold text-white">
+                      {session.user.name?.[0]?.toUpperCase() || "U"}
+                    </div>
+                  )}
+                </div>
+                <div className="flex flex-col min-w-0">
+                  <p className="text-sm font-bold text-gray-900 truncate">
+                    {session.user.name}
+                  </p>
+                  <p className="text-xs text-gray-500 truncate">
+                    {session.user.email}
+                  </p>
+                </div>
+              </div>
+
+              <Link
+                href="/profile"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-50 hover:text-[#009245]"
+              >
+                <span className="text-base">👤</span> আমার প্রোফাইল
+              </Link>
+
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  handleSignOut();
+                }}
+                className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium text-red-600 transition hover:bg-red-50"
+              >
+                <span className="text-base">↪</span> সাইন আউট
+              </button>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-2.5">
+              <Link
+                href="/Signin"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex w-full items-center justify-center rounded-xl border border-gray-200 px-5 py-2.5 text-sm font-semibold text-gray-700 transition duration-200 hover:border-[#009245] hover:bg-green-50 hover:text-[#009245]"
+              >
+                সাইন ইন
+              </Link>
+              <Link
+                href="/Signup"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex w-full items-center justify-center rounded-xl bg-[#009245] px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition duration-200 hover:bg-[#007a39]"
+              >
+                সাইন আপ
+              </Link>
+            </div>
+          )}
+        </div>
+      )}
 
       <Suspense fallback={null}>
         <Catagories />

@@ -124,9 +124,13 @@ Make sure you have installed:
 - Git
 - A MongoDB database
 
-### 1. Clone the Repository
+### 1. Clone the Repository and analise the project through live link
 
 git clone YOUR_GITHUB_REPOSITORY_URL: https://github.com/mahfujtipo/Assignment-07-bazar-dor
+
+ versel live link :https://assignment-07-bazar-dor-uyys.vercel.app/
+
+
 ### 2. Navigate to the Project Directory
 
 cd Bazar-Dor
