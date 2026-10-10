@@ -20,7 +20,7 @@ export default function Catagories() {
     async function fetchCategories() {
       try {
         const response = await fetch(
-          "https://api.abcz.workers.dev/api/bazardor/categories",
+          "https://openapi.programming-hero.com/api/bazardor/categories",
         );
         if (response.ok) {
           const data = await response.json();

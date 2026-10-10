@@ -20,7 +20,7 @@ function CategoryPageContent({
       try {
         setLoading(true);
         const res = await fetch(
-          `https://api.abcz.workers.dev/api/bazardor/products?category=${categorySlug}`,
+          `https://openapi.programming-hero.com/api/bazardor/products?category=${categorySlug}`,
         );
         if (res.ok) {
           const data = await res.json();

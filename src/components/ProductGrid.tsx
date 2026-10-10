@@ -16,7 +16,7 @@ export default function ProductGrid() {
         setError(null);
 
         const res = await fetch(
-          "https://api.abcz.workers.dev/api/bazardor/products",
+          "https://openapi.programming-hero.com/api/bazardor/products",
         );
 
         if (!res.ok) {
@@ -123,7 +123,7 @@ export default function ProductGrid() {
             )}
           </div>
 
-          <div>
+          <div id="all-products" className="scroll-mt-24">
             <div className="mb-6">
               <h2 className="text-xl font-extrabold text-gray-900 sm:text-2xl">
                 সব পণ্য

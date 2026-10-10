@@ -73,7 +73,11 @@ export default function SigninPage() {
         </div>
 
         <div className="rounded-3xl border border-gray-100 bg-[#fbfcfb] p-8 shadow-sm">
-          <form onSubmit={handleSubmit} className="space-y-4 text-left">
+          <form
+            onSubmit={handleSubmit}
+            autoComplete="off"
+            className="space-y-4 text-left"
+          >
             <div>
               <label
                 htmlFor="email"
@@ -86,7 +90,8 @@ export default function SigninPage() {
                 type="email"
                 name="email"
                 required
-                autoComplete="email"
+                autoComplete="off"
+                data-lpignore="true"
                 placeholder="you@example.com"
                 className="mt-1.5 w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 placeholder-gray-400 focus:border-[#009245] focus:outline-none focus:ring-1 focus:ring-[#009245]"
               />
@@ -105,7 +110,8 @@ export default function SigninPage() {
                 name="password"
                 required
                 minLength={8}
-                autoComplete="current-password"
+                autoComplete="new-password"
+                data-lpignore="true"
                 placeholder="আপনার পাসওয়ার্ড লিখুন"
                 className="mt-1.5 w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 placeholder-gray-400 focus:border-[#009245] focus:outline-none focus:ring-1 focus:ring-[#009245]"
               />

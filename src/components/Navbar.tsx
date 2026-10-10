@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Suspense, useSyncExternalStore } from "react";
 import Catagories from "@/components/catagories";
 import { useSession, signOut } from "@/lib/auth-client";
+import { toast } from "react-toastify"; // টোস্ট ইম্পোর্ট নিশ্চিত করুন
 
 const getBengaliDate = () =>
   new Intl.DateTimeFormat("bn-BD", {
@@ -115,7 +116,10 @@ export default function Navbar({ children }: { children?: React.ReactNode }) {
                     await signOut({
                       fetchOptions: {
                         onSuccess: () => {
-                          window.location.href = "/Signin";
+                          toast.success("সফলভাবে সাইন আউট করা হয়েছে!");
+                          setTimeout(() => {
+                            window.location.href = "/Signin";
+                          }, 1000);
                         },
                       },
                     });
@@ -145,12 +149,10 @@ export default function Navbar({ children }: { children?: React.ReactNode }) {
         </nav>
       </div>
 
-      {/* Categories Bar */}
       <Suspense fallback={null}>
         <Catagories />
       </Suspense>
 
-      {/* Marquee Ticker comes here from layout.tsx children */}
       {children}
     </header>
   );

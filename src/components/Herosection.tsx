@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 
 export default function HeroSection() {
   const [formattedDate, setFormattedDate] = useState<string>("");
@@ -14,8 +13,18 @@ export default function HeroSection() {
       month: "long",
       day: "numeric",
     };
-    setFormattedDate(new Intl.DateTimeFormat("bn-BD", options).format(new Date()));
+
+    setFormattedDate(
+      new Intl.DateTimeFormat("bn-BD", options).format(new Date()),
+    );
   }, []);
+
+  const handleScrollToProducts = () => {
+    document.getElementById("all-products")?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
 
   return (
     <section className="mx-auto mb-4 w-full max-w-7xl px-3 sm:mb-6 sm:px-6 lg:px-8">
@@ -36,12 +45,13 @@ export default function HeroSection() {
             </p>
 
             <div className="w-full pt-1 sm:w-auto sm:pt-2">
-              <Link
-                href="/products"
+              <button
+                type="button"
+                onClick={handleScrollToProducts}
                 className="inline-flex w-full items-center justify-center rounded-xl bg-[#009245] px-5 py-3 text-sm font-bold text-white shadow-md transition hover:bg-[#007a39] active:scale-95 sm:w-auto sm:px-6 sm:text-base"
               >
                 সব পণ্য দেখুন
-              </Link>
+              </button>
             </div>
           </div>
 

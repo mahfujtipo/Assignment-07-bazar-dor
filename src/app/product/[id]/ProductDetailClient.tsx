@@ -18,7 +18,7 @@ export default function ProductDetailClient({
         setLoading(true);
 
         const res = await fetch(
-          `https://api.abcz.workers.dev/api/bazardor/products/${productId}`,
+          `https://openapi.programming-hero.com/api/bazardor/products/${productId}`,
         );
 
         if (res.ok) {
