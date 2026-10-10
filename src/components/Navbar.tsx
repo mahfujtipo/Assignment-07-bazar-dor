@@ -28,7 +28,7 @@ export default function Navbar({ children }: { children?: React.ReactNode }) {
   const { data: session } = useSession();
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-gray-200/80 bg-white/95 backdrop-blur-md">
+    <header className="relative z-50 w-full border-b border-gray-200/80 bg-white/95">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-4 lg:px-8">
         <Link
           href="/"
@@ -55,6 +55,7 @@ export default function Navbar({ children }: { children?: React.ReactNode }) {
           </div>
         </Link>
 
+        {/* Desktop Nav */}
         <nav className="hidden items-center gap-3 sm:flex">
           {session?.user ? (
             <details className="group relative z-[100]">
@@ -133,94 +134,23 @@ export default function Navbar({ children }: { children?: React.ReactNode }) {
               >
                 সাইন ইন
               </Link>
-
               <Link
                 href="/Signup"
-                className="cursor-pointer rounded-xl bg-[#009245] px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition duration-200 hover:bg-[#007a39] hover:shadow-md"
+                className="cursor-pointer rounded-xl bg-[#009245] px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition duration-200 hover:bg-[#007a39]"
               >
                 সাইন আপ
               </Link>
             </>
           )}
         </nav>
-
-        <details className="group relative z-[100] sm:hidden">
-          <summary
-            aria-label="মেনু খুলুন বা বন্ধ করুন"
-            className="flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-xl border border-gray-200 bg-white text-gray-800 shadow-sm transition duration-200 hover:border-[#009245]/40 hover:bg-green-50 [&::-webkit-details-marker]:hidden"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={2}
-              stroke="currentColor"
-              className="h-6 w-6 transition-transform duration-200 group-open:rotate-90"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
-          </summary>
-
-          <div className="absolute right-0 top-[calc(100%+8px)] z-[999] w-64 rounded-2xl border border-gray-100 bg-white p-3 shadow-xl shadow-gray-900/10">
-            {session?.user ? (
-              <>
-                <div className="border-b border-gray-100 pb-3 mb-2 px-1">
-                  <p className="text-sm font-bold text-gray-900">
-                    {session.user.name}
-                  </p>
-                  <p className="text-xs text-gray-500 truncate">
-                    {session.user.email}
-                  </p>
-                </div>
-                <Link
-                  href="/profile"
-                  className="flex items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
-                >
-                  <span>👤</span> আমার প্রোফাইল
-                </Link>
-                <button
-                  onClick={async () => {
-                    await signOut({
-                      fetchOptions: {
-                        onSuccess: () => {
-                          window.location.href = "/Signin";
-                        },
-                      },
-                    });
-                  }}
-                  className="flex w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm font-medium text-red-600 transition hover:bg-red-50"
-                >
-                  <span>↪</span> সাইন আউট
-                </button>
-              </>
-            ) : (
-              <div className="flex flex-col gap-2">
-                <Link
-                  href="/Signin"
-                  className="cursor-pointer rounded-lg border border-gray-300 px-4 py-2 text-center text-sm font-medium text-gray-700 transition hover:bg-gray-50"
-                >
-                  সাইন ইন
-                </Link>
-
-                <Link
-                  href="/Signup"
-                  className="cursor-pointer rounded-lg bg-[#009245] px-4 py-2 text-center text-sm font-medium text-white shadow-sm transition hover:bg-[#007a39]"
-                >
-                  সাইন আপ
-                </Link>
-              </div>
-            )}
-          </div>
-        </details>
       </div>
 
+      {/* Categories Bar */}
       <Suspense fallback={null}>
         <Catagories />
       </Suspense>
+
+      {/* Marquee Ticker comes here from layout.tsx children */}
       {children}
     </header>
   );

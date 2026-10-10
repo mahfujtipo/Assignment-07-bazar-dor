@@ -16,7 +16,7 @@ export default function ProductGrid() {
         setError(null);
 
         const res = await fetch(
-          "https://api.api-store.workers.dev/api/bazardor/products",
+          "https://api.abcz.workers.dev/api/bazardor/products",
         );
 
         if (!res.ok) {
@@ -85,13 +85,12 @@ export default function ProductGrid() {
 
       {!loading && !error && (
         <>
-          {/* ১. আজ দাম বেড়েছে */}
           <div>
             <div className="mb-6 flex items-center gap-2">
               <FaCaretUp className="h-7 w-7 shrink-0 text-red-600" />
               <div>
                 <h2 className="text-xl font-extrabold text-gray-900 sm:text-2xl">
-                  আজ দাম বেড়েছে
+                  আজ দাম বেড়েছে
                 </h2>
               </div>
             </div>
@@ -100,12 +99,11 @@ export default function ProductGrid() {
               renderProducts(increasedProducts)
             ) : (
               <p className="rounded-xl bg-white p-5 text-center text-sm text-gray-500">
-                দাম বেড়েছে এমন কোনো পণ্য পাওয়া যায়নি।
+                দাম বেড়েছে এমন কোনো পণ্য পাওয়া যায়নি।
               </p>
             )}
           </div>
 
-          {/* ২. আজ দাম কমেছে */}
           <div>
             <div className="mb-6 flex items-center gap-2">
               <FaCaretDown className="h-7 w-7 shrink-0 text-green-600" />
@@ -120,12 +118,11 @@ export default function ProductGrid() {
               renderProducts(decreasedProducts)
             ) : (
               <p className="rounded-xl bg-white p-5 text-center text-sm text-gray-500">
-                দাম কমেছে এমন কোনো পণ্য পাওয়া যায়নি।
+                দাম কমেছে এমন কোনো পণ্য পাওয়া যায়নি।
               </p>
             )}
           </div>
 
-          {/* ৩. সব পণ্য */}
           <div>
             <div className="mb-6">
               <h2 className="text-xl font-extrabold text-gray-900 sm:text-2xl">
@@ -140,7 +137,7 @@ export default function ProductGrid() {
               renderProducts(products)
             ) : (
               <p className="rounded-xl bg-white p-5 text-center text-sm text-gray-500">
-                কোনো পণ্য পাওয়া যায়নি।
+                কোনো পণ্য পাওয়া যায়নি।
               </p>
             )}
           </div>

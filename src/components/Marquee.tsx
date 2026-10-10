@@ -1,106 +1,115 @@
-import Link from "next/link";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import Marquee from "react-fast-marquee";
-import { FaCaretUp, FaCaretDown } from "react-icons/fa";
+import { useRouter } from "next/navigation";
+import { useSession } from "@/lib/auth-client";
+import { Product } from "@/components/Card";
 
-interface Product {
-  id: number;
-  slug: string;
-  nameBn: string;
-  unit: string;
-  image: string;
-  today: number;
-  change: {
-    dir: "up" | "down" | "flat";
-    pct: number;
-  };
-}
+export default function ProductsMarquee() {
+  const router = useRouter();
+  const { data: session } = useSession();
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
 
-export default async function ProductsMarquee() {
-  let products: Product[] = [];
-
-  const apiUrls = [
-    "https://api.api-store.workers.dev/api/bazardor/products",
-    "https://api.abcz.workers.dev/api/bazardor/products",
-  ];
-
-  for (const url of apiUrls) {
-    try {
-      const response = await fetch(url, {
-        cache: "no-store",
-      });
-
-      if (!response.ok) {
-        console.error(
-          `Products API failed: ${url}`,
-          response.status,
-          response.statusText,
+  useEffect(() => {
+    async function fetchMarqueeData() {
+      try {
+        const res = await fetch(
+          "https://api.abcz.workers.dev/api/bazardor/products",
         );
-        continue;
+        if (res.ok) {
+          const data = await res.json();
+          const list = Array.isArray(data) ? data : data.products || [];
+          setProducts(list);
+        }
+      } catch (err) {
+        console.error("Marquee fetch error:", err);
+      } finally {
+        setLoading(false);
       }
-
-      const data: unknown = await response.json();
-
-      if (!Array.isArray(data)) {
-        console.error("Products API returned an unexpected response:", data);
-        continue;
-      }
-
-      products = data as Product[];
-      break;
-    } catch (error) {
-      console.error(`Failed to fetch products from ${url}:`, error);
     }
+    fetchMarqueeData();
+  }, []);
+
+  const handleClick = (e: React.MouseEvent, id: number) => {
+    e.preventDefault();
+    if (!session) {
+      router.push("/Signin");
+    } else {
+      router.push(`/product/${id}`);
+    }
+  };
+
+  if (loading || products.length === 0) {
+    return (
+      <div className="h-10 w-full animate-pulse border-y border-gray-200 bg-[#f4f7f4]" />
+    );
   }
 
-  const formatBn = (num: number) => num.toLocaleString("bn-BD");
+  const numberBn = (num: number) => new Intl.NumberFormat("bn-BD").format(num);
+
+  const getUnitBn = (unit: string) => {
+    switch (unit) {
+      case "kg":
+        return "কেজি";
+      case "litre":
+        return "লিটার";
+      case "dozen":
+        return "ডজন";
+      case "piece":
+        return "টি";
+      default:
+        return unit;
+    }
+  };
 
   return (
-    <div className="border-y border-gray-100 bg-gray-50 py-2">
-      <Marquee speed={80} pauseOnHover gradient={false}>
-        {products.length > 0 ? (
-          products.map((product) => (
-            <Link
-              key={product.id}
-              href={`/product/${product.id}`}
-              className="mx-5 flex shrink-0 cursor-pointer items-center gap-2 text-sm"
-            >
-              <span>{product.image}</span>
+    <div className="w-full overflow-hidden border-y border-gray-200 bg-[#f4f7f4] py-2.5 shadow-xs">
+      <Marquee speed={70} pauseOnHover={true} gradient={false}>
+        <div className="flex w-max items-center gap-12 px-4 text-xs font-medium sm:text-sm">
+          {products.map((product) => {
+            const isUp = product.change?.dir === "up";
+            const isDown = product.change?.dir === "down";
 
-              <span className="font-medium text-gray-800">
-                {product.nameBn}
-              </span>
-
-              <span className="font-semibold text-gray-900">
-                {formatBn(product.today)} টাকা
-                {product.unit === "kg"
-                  ? "/কেজি"
-                  : product.unit === "litre"
-                    ? "/লিটার"
-                    : product.unit === "dozen"
-                      ? "/ডজন"
-                      : ""}
-              </span>
-
-              {product.change?.dir === "up" && (
-                <span className="flex items-center font-semibold text-red-600">
-                  <FaCaretUp />
-                  {formatBn(product.change.pct)}%
+            return (
+              <div
+                key={product.id || product.slug}
+                onClick={(e) => handleClick(e, product.id)}
+                className="flex shrink-0 cursor-pointer items-center gap-2 text-gray-800 transition hover:opacity-80"
+              >
+                <span className="text-base">{product.image}</span>
+                <span className="font-bold text-gray-900">
+                  {product.nameBn}
                 </span>
-              )}
 
-              {product.change?.dir === "down" && (
-                <span className="flex items-center font-semibold text-green-600">
-                  <FaCaretDown />
-                  {formatBn(Math.abs(product.change.pct))}%
+                <span className="text-gray-600">
+                  {numberBn(product.today)} টাকা/{getUnitBn(product.unit)}
                 </span>
-              )}
-            </Link>
-          ))
-        ) : (
-          <span className="mx-5 text-sm text-gray-500">
-            এই মুহূর্তে পণ্যের দাম লোড করা যাচ্ছে না।
-          </span>
-        )}
+
+                {isUp && (
+                  <span className="flex items-center gap-0.5 font-bold text-red-600">
+                    <span>▲</span>
+                    <span>{numberBn(Math.abs(product.change.pct))}%</span>
+                  </span>
+                )}
+
+                {isDown && (
+                  <span className="flex items-center gap-0.5 font-bold text-[#009245]">
+                    <span>▼</span>
+                    <span>{numberBn(Math.abs(product.change.pct))}%</span>
+                  </span>
+                )}
+
+                {!isUp && !isDown && (
+                  <span className="text-gray-400">— ০.০%</span>
+                )}
+
+                <span className="ml-6 text-gray-300">|</span>
+              </div>
+            );
+          })}
+        </div>
       </Marquee>
     </div>
   );

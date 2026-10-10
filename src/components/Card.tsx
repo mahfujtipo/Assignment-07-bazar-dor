@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useSession } from "@/lib/auth-client";
 
 export interface Market {
   market: string;
@@ -35,6 +36,8 @@ interface ProductCardProps {
 }
 
 export default function Card({ product }: ProductCardProps) {
+  const router = useRouter();
+  const { data: session } = useSession();
   const { id, nameBn, unit, image, today, change } = product;
 
   const unitBn =
@@ -50,9 +53,18 @@ export default function Card({ product }: ProductCardProps) {
 
   const formatBn = (num: number) => num.toLocaleString("bn-BD");
 
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!session) {
+      router.push("/Signin");
+    } else {
+      router.push(`/product/${id}`);
+    }
+  };
+
   return (
-    <Link
-      href={`/product/${id}`}
+    <div
+      onClick={handleClick}
       className="group flex cursor-pointer flex-col justify-between rounded-2xl border border-gray-100 bg-[#fafcfb] p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
     >
       <div className="flex items-start gap-3.5">
@@ -100,6 +112,6 @@ export default function Card({ product }: ProductCardProps) {
           )}
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
