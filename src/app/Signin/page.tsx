@@ -12,33 +12,40 @@ export default function SigninPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
+  // Controlled states for form inputs
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
 
-    const formData = new FormData(e.currentTarget);
-    const formValues = Object.fromEntries(formData.entries()) as Record<
-      string,
-      string
-    >;
-
     try {
-      const { data, error } = await signIn.email({
-        email: formValues.email,
-        password: formValues.password,
+      const res = await signIn.email({
+        email,
+        password,
       });
 
-      if (error) {
-        toast.error(error.message || "সাইন ইন করতে সমস্যা হয়েছে।");
+      if (res?.error) {
+        toast.error(res.error.message || "সাইন ইন করতে সমস্যা হয়েছে।");
+        // ভুল হলে পাসওয়ার্ড ফিল্ড খালি করে দেওয়া হবে
+        setPassword("");
       } else {
         toast.success("সফলভাবে সাইন ইন হয়েছে! 🎉");
+
+        // সফলভাবে সাইন-ইন হলে ফিল্ডগুলো পরিষ্কার করে দেওয়া হবে
+        setEmail("");
+        setPassword("");
+
         setTimeout(() => {
           router.push("/");
-        }, 1500);
+          router.refresh();
+        }, 1000);
       }
     } catch (err: any) {
       toast.error("একটি অপ্রত্যাশিত ত্রুটি ঘটেছে। আবার চেষ্টা করুন।");
       console.error("Signin catch error:", err);
+      setPassword("");
     } finally {
       setLoading(false);
     }
@@ -46,14 +53,10 @@ export default function SigninPage() {
 
   const handleSocialSignIn = async (provider: "google" | "github") => {
     try {
-      const { error } = await signIn.social({
+      await signIn.social({
         provider,
         callbackURL: "/",
       });
-
-      if (error) {
-        toast.error(error.message || "সাইন ইন করতে সমস্যা হয়েছে।");
-      }
     } catch (err: any) {
       toast.error("একটি অপ্রত্যাশিত ত্রুটি ঘটেছে। আবার চেষ্টা করুন।");
       console.error("Social signin error:", err);
@@ -89,9 +92,10 @@ export default function SigninPage() {
                 id="email"
                 type="email"
                 name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
-                autoComplete="off"
-                data-lpignore="true"
+                autoComplete="new-email"
                 placeholder="you@example.com"
                 className="mt-1.5 w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 placeholder-gray-400 focus:border-[#009245] focus:outline-none focus:ring-1 focus:ring-[#009245]"
               />
@@ -108,10 +112,10 @@ export default function SigninPage() {
                 id="password"
                 type="password"
                 name="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 required
-                minLength={8}
                 autoComplete="new-password"
-                data-lpignore="true"
                 placeholder="আপনার পাসওয়ার্ড লিখুন"
                 className="mt-1.5 w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 placeholder-gray-400 focus:border-[#009245] focus:outline-none focus:ring-1 focus:ring-[#009245]"
               />
