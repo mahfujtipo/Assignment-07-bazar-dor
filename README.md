@@ -1,36 +1,197 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# বাজার দর | Bazar Dor
 
-## Getting Started
+A Bengali-language web application that helps users explore daily market prices, compare product prices, track price changes, and browse products by category.
 
-First, run the development server:
+## ✨ Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Responsive Design:** Works across desktop, tablet, and mobile devices.
+- **Daily Market Prices:** Displays current product prices in Bengali.
+- **Price Change Tracking:** Highlights products with rising and falling prices.
+- **Product Categories:** Browse products by category.
+- **Product Details:** View individual product information and market-wise prices.
+- **Product Sorting:** Sort products by default order, lowest price, or highest price.
+- **User Authentication:** Sign up and sign in using email and password.
+- **Social Authentication:** Supports Google and GitHub sign-in through Better Auth.
+- **User Profile:** Access profile information after signing in.
+- **Loading States:** Displays loading indicators while data is being fetched.
+- **Notifications:** Provides feedback using toast notifications.
+- **Bengali Interface:** Uses Bengali text and a Bengali-friendly font.
+- **Price Ticker:** Displays product prices and their changes in a scrolling ticker.
+
+## 🛠️ Technologies Used
+
+| Technology | Purpose |
+|---|---|
+| Next.js | React framework and routing |
+| React | User interface development |
+| TypeScript | Type-safe JavaScript |
+| Tailwind CSS | Responsive styling |
+| Better Auth | Authentication |
+| MongoDB | Database integration |
+| React Toastify | Toast notifications |
+| REST API | Product and category data |
+| Vercel | Deployment |
+
+## 📁 Project Structure
+
+```text
+Bazar-Dor/
+├── public/
+│   ├── logo-icon.png
+│   └── bazar-hero.png
+│
+├── src/
+│   ├── app/
+│   │   ├── api/
+│   │   │   └── auth/
+│   │   │       └── [...all]/
+│   │   │           └── route.ts
+│   │   │
+│   │   ├── category/
+│   │   │   └── [category]/
+│   │   │       ├── loading.tsx
+│   │   │       └── page.tsx
+│   │   │
+│   │   ├── product/
+│   │   │   └── [id]/
+│   │   │       ├── loading.tsx
+│   │   │       ├── page.tsx
+│   │   │       └── ProductDetailClient.tsx
+│   │   │
+│   │   ├── Signin/
+│   │   │   └── page.tsx
+│   │   ├── Signup/
+│   │   │   └── page.tsx
+│   │   ├── profile/
+│   │   │   └── page.tsx
+│   │   │
+│   │   ├── globals.css
+│   │   ├── layout.tsx
+│   │   ├── page.tsx
+│   │   ├── loading.tsx
+│   │   └── not-found.tsx
+│   │
+│   ├── components/
+│   │   ├── Card.tsx
+│   │   ├── catagories.tsx
+│   │   ├── Footer.tsx
+│   │   ├── Herosection.tsx
+│   │   ├── Marquee.tsx
+│   │   ├── Navbar.tsx
+│   │   ├── ProductGrid.tsx
+│   │   └── ProductsMarqueeWrapper.tsx
+│   │
+│   └── lib/
+│       ├── auth.ts
+│       └── auth-client.ts
+│
+├── .gitignore
+├── eslint.config.mjs
+├── next.config.ts
+├── package.json
+├── package-lock.json
+├── postcss.config.mjs
+├── tsconfig.json
+└── README.md
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+*Note: This folder structure is illustrative. Update filenames and folders to match your actual project.*
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🌐 API Endpoints
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The application uses the Bazar Dor API to retrieve product and category information.
 
-## Learn More
+**Base URL:** `https://api.api-store.workers.dev/api/bazardor`
 
-To learn more about Next.js, take a look at the following resources:
+| Endpoint | Description |
+|---|---|
+| `/categories` | Retrieves available product categories |
+| `/products` | Retrieves product information |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Example full URLs:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Categories: https://api.api-store.workers.dev/api/bazardor/categories
+- Products: https://api.api-store.workers.dev/api/bazardor/products
 
-## Deploy on Vercel
+## 🚀 Getting Started
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Prerequisites
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Make sure you have installed:
+
+- Node.js
+- npm
+- Git
+- A MongoDB database
+
+### 1. Clone the Repository
+
+git clone YOUR_GITHUB_REPOSITORY_URL:
+
+### 2. Navigate to the Project Directory
+
+cd Bazar-Dor
+
+### 3. Install Dependencies
+
+npm install
+
+### 4. Start the Development Server
+
+npm run dev
+
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### 5. Build for Production
+
+npm run build
+
+To run the production build locally:
+
+npm run start
+
+## 🔐 Authentication
+
+Bazar Dor uses Better Auth for user authentication.
+
+Supported authentication methods:
+
+- Email and password
+- Google OAuth
+- GitHub OAuth
+
+## 📱 Responsive Design
+
+The interface is designed to adapt to different screen sizes:
+
+- **Desktop:** Full navigation and multi-column product layouts.
+- **Tablet:** Adapted navigation and product grids.
+- **Mobile:** Compact navigation and responsive product layouts.
+
+## 🚢 Deployment
+
+The application can be deployed on Vercel.
+
+1. Push the project to GitHub.
+2. Import the repository into Vercel.
+3. Configure the required deployment settings.
+4. Deploy the application.
+5. Verify the production URL, authentication flows, API requests, and dynamic routes.
+
+## 🎯 Project Objectives
+
+- Make daily market-price information easier to access.
+- Present product prices through a clear Bengali interface.
+- Help users explore product categories and compare prices.
+- Provide a responsive and user-friendly browsing experience.
+- Implement authentication and dynamic routing using Next.js.
+
+## 👨‍💻 Author
+
+Name:Mahafujul Alam Tipo
+
+GitHub:https://github.com/mahfujtipo
+
+## 📄 License
+
+This project was developed for educational purposes. Add a license file if you intend to distribute the project under a specific open-source license.
