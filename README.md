@@ -127,7 +127,6 @@ Make sure you have installed:
 ### 1. Clone the Repository
 
 git clone YOUR_GITHUB_REPOSITORY_URL: https://github.com/mahfujtipo/Assignment-07-bazar-dor
-
 ### 2. Navigate to the Project Directory
 
 cd Bazar-Dor
