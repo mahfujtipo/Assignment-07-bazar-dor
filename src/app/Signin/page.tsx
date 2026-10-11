@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast"; // <-- পরিবর্তন করা হলো
 import { signIn } from "@/lib/auth-client";
 
 export default function SigninPage() {
@@ -28,12 +28,12 @@ export default function SigninPage() {
 
       if (res?.error) {
         toast.error(res.error.message || "সাইন ইন করতে সমস্যা হয়েছে।");
-        // ভুল হলে পাসওয়ার্ড ফিল্ড খালি করে দেওয়া হবে
+        // ভুল হলে পাসওয়ার্ড ফিল্ড খালি করে দেওয়া হবে
         setPassword("");
       } else {
         toast.success("সফলভাবে সাইন ইন হয়েছে! 🎉");
 
-        // সফলভাবে সাইন-ইন হলে ফিল্ডগুলো পরিষ্কার করে দেওয়া হবে
+        // সফলভাবে সাইন-ইন হলে ফিল্ডগুলো পরিষ্কার করে দেওয়া হবে
         setEmail("");
         setPassword("");
 

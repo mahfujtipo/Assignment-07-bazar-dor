@@ -49,6 +49,7 @@ Bazar-Dor/
 │   │   │
 │   │   ├── category/
 │   │   │   └── [category]/
+│   │   │       ├── CategoryProducts.tsx
 │   │   │       ├── loading.tsx
 │   │   │       └── page.tsx
 │   │   │
@@ -60,10 +61,14 @@ Bazar-Dor/
 │   │   │
 │   │   ├── Signin/
 │   │   │   └── page.tsx
+│   │   │
 │   │   ├── Signup/
 │   │   │   └── page.tsx
+│   │   │
 │   │   ├── profile/
-│   │   │   └── page.tsx
+│   │   │   ├── page.tsx
+│   │   │   └── update/
+│   │   │       └── page.tsx
 │   │   │
 │   │   ├── globals.css
 │   │   ├── layout.tsx

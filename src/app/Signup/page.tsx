@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast"; // <-- পরিবর্তন করা হলো
 import { signUp, signIn } from "@/lib/auth-client";
 
 export default function SignupPage() {

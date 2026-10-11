@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Suspense, useState, useSyncExternalStore } from "react";
 import Catagories from "@/components/catagories";
 import { useSession, signOut } from "@/lib/auth-client";
-import { toast } from "react-toastify";
+import { toast } from "react-hot-toast"; // <-- পরিবর্তন করা হলো
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoClose } from "react-icons/io5";
 

@@ -4,7 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ProductsMarqueeWrapper from "@/components/ProductsMarqueeWrapper";
-import { ToastContainer } from "react-toastify";
+import { Toaster } from "react-hot-toast"; // <-- পরিবর্তন করা হলো
 
 const notoSerifBengali = Noto_Serif_Bengali({
   subsets: ["latin", "bengali"],
@@ -32,7 +32,7 @@ export default function RootLayout({
 
         <main className="flex-1">
           {children}
-          <ToastContainer position="top-center" autoClose={3000} />
+          <Toaster position="top-center" reverseOrder={false} />
         </main>
 
         <Footer />

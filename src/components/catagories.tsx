@@ -1,19 +1,26 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+
 import Link from "next/link";
+
 import { usePathname } from "next/navigation";
 
 interface Category {
   id: string;
+
   slug: string;
+
   nameBn: string;
+
   icon: string;
 }
 
 export default function Catagories() {
   const pathname = usePathname();
+
   const [categories, setCategories] = useState<Category[]>([]);
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -22,8 +29,10 @@ export default function Catagories() {
         const response = await fetch(
           "https://openapi.programming-hero.com/api/bazardor/categories",
         );
+
         if (response.ok) {
           const data = await response.json();
+
           setCategories(data);
         }
       } catch (error) {
@@ -72,6 +81,7 @@ export default function Catagories() {
                 }`}
               >
                 <span>{category.icon}</span>
+
                 <span className="whitespace-nowrap">{category.nameBn}</span>
               </Link>
             );
